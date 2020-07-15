@@ -47,35 +47,30 @@ public class JZ04_FindNumberIn2DArray {
     static class Solution {
 
         public boolean findNumberIn2DArray(int[][] matrix, int target) {
-            if(matrix == null){
+            if(matrix == null)
                 return false;
-            }
             int y = matrix.length;
-            if(y == 0){
+            if(y == 0)
                 return false;
-            }
             int x = matrix[0].length;
-            if(x == 0){
+            if(x == 0)
                 return false;
-            }
+
             int xt = x -1;//横向指针
             int yt = 0;//纵向指针
-
             while (true){
                 int cur = matrix[yt][xt];
                 // 查询成功终结条件
-                if(cur == target){
+                if(cur == target)
                     return true;
-                }
                 if(cur > target){
                     xt --;
                 }else {
                     yt ++;
                 }
                 // 未查询到终结条件
-                if(xt < 0 || yt == y){
+                if(xt < 0 || yt == y)
                     return false;
-                }
             }
         }
     }

@@ -29,9 +29,9 @@ public class JZ03_RepeatNumberInArray {
         public int findRepeatNumber(int[] nums) {
             HashSet<Integer> set = new HashSet<>(nums.length);
             for (int num : nums) {
-                if (!set.add(num)) {
+                // 添加不进hash冲突
+                if (!set.add(num))
                     return num;
-                }
             }
             return -1;
         }

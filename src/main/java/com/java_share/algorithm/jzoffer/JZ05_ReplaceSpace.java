@@ -28,9 +28,8 @@ public class JZ05_ReplaceSpace {
     static class Solution {
 
         public String replaceSpace(String s) {
-            if(s == null){
+            if(s == null)
                 return null;
-            }
             char[] chars = s.toCharArray();
             char[] newChars = new char[chars.length * 3];
             int size = 0;

@@ -1,9 +1,7 @@
 package com.java_share.algorithm.jzoffer;
 
-import java.util.Arrays;
 import java.util.HashMap;
 import java.util.Map;
-import java.util.Stack;
 
 /**
  * @author yz
@@ -28,38 +26,31 @@ public class JZ07_BuildTree {
 
     static class Solution {
 
-        public TreeNode buildTree(int[] preorder, int[] inorder) {
-            if (preorder == null || preorder.length == 0) {
-                return null;
+        public TreeNode buildTree(int[] pre, int[] in) {
+            Map<Integer, Integer> inMap = new HashMap<>(pre.length);
+            for (int i = 0; i < in.length; i++) {
+                inMap.put(in[i], i);
             }
-            int length = preorder.length;
-            Map<Integer, Integer> inMap = new HashMap<>(length);
-            for (int i = 0; i < length; i++) {
-                inMap.put(inorder[i], i);
-            }
-            TreeNode root = buildTree(preorder, 0, length - 1, 0, length - 1, inMap);
-            return root;
+            return dfs(pre, inMap, 0, pre.length-1, 0);
         }
 
-        public TreeNode buildTree(int[] pre, 
-                                  int ps, int pe, 
-                                  int is, int ie, 
-                                  Map<Integer, Integer> inMap) {
-            if (ps > pe) {
+        // ins 中序遍历数组开始的位置
+        private TreeNode dfs(int[] pre, Map<Integer, Integer> inMap,
+                             int ps, int pe, int ins) {
+            // 终结条件 ps-前序左指针start,pe-前序右指针end
+            if(ps > pe){
                 return null;
             }
-            int val = pre[ps];
-            TreeNode head = new TreeNode(val);
-            if (ps != pe) {
-                int in = inMap.get(val);
-                int l = in - is, r = ie - in;
-                TreeNode left = buildTree(pre, ps + 1, ps + l, is, in - 1, inMap);
-                TreeNode right = buildTree(pre, pe - r + 1, pe, in + 1, ie, inMap);
-                head.left = left;
-                head.right = right;
+            int mid = inMap.get(pre[ps]);// 中序mid index
+            TreeNode head = new TreeNode(pre[ps]);// head节点
+            if(ps != pe){//ps==pe重合直接返回head
+                int len = mid - ins;//左端长度
+                //左子集,范围 pre[ps+1, pe+len] in[ins,)
+                head.left = dfs(pre, inMap,ps+1, ps + len, ins);
+                //右子集,范围 pre[ps+len+1, pe] in[mid+1,)
+                head.right = dfs(pre, inMap,ps+len+1, pe,mid + 1);
             }
             return head;
         }
-
     }
 }
