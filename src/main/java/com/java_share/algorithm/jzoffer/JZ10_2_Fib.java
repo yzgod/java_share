@@ -31,6 +31,7 @@ public class JZ10_2_Fib {
             return dfs(n, 1, 2);
         }
 
+        // 尾递归
         private int dfs(int n, int preResult, int result) {
             if(n < 2)
                 return 1;
@@ -40,7 +41,7 @@ public class JZ10_2_Fib {
             return dfs(--n, result, sum);
         }
 
-
+        // 循环
         public int numWays2(int n) {
             if(n < 2)
                 return 1;

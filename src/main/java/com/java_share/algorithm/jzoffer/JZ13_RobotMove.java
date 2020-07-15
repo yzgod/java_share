@@ -35,7 +35,6 @@ public class JZ13_RobotMove {
             boolean[][] passed = new boolean[y][x];
             return dfs(y, x, passed, 0, 0, k);
         }
-
         private int dfs(int yLen, int xLen, boolean[][] passed,
                         int y, int x, int k) {
             // 终结条件,返回0
@@ -43,12 +42,13 @@ public class JZ13_RobotMove {
                 return 0;
             passed[y][x] = true;// 设置走过
             // 机器人从[0,0]开始,其实只能往x或y方向走一步, 累加
-            return 1 + dfs(yLen, xLen, passed, y+1, x, k) + dfs(yLen, xLen, passed, y, x+1, k);
+            return 1 + dfs(yLen, xLen, passed, y+1, x, k)
+                     + dfs(yLen, xLen, passed, y, x+1, k);
         }
-
-        // xy与k的函数关系
+        // sum(x,y)
         int sum(int y, int x){
             return y%10 + y/10 + x%10 + x/10;
         }
+
     }
 }

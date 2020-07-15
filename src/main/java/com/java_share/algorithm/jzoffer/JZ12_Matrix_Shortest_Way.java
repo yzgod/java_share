@@ -36,11 +36,13 @@ public class JZ12_Matrix_Shortest_Way {
     }
 
     static class Solution {
+
         public boolean exist(char[][] board, String word) {
             char[] words = word.toCharArray();
             for (int y = 0; y < board.length; y++) {
                 for (int x = 0; x < board[0].length; x++) {
-                    if(board[y][x] == words[0] && dfs(board, words, null, x, y, 0))
+                    if(board[y][x] == words[0]
+                            && dfs(board, words, null, x, y, 0))
                         return true;
                 }
             }

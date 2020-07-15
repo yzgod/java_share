@@ -26,8 +26,8 @@ package com.java_share.algorithm.jzoffer;
  *      n =9 切成3 + (3 + 3)
  *      n =10 切成(2 + 2) + (3 + 3)
  *      n =11 切成(2 + 3) + (3 + 3)
+ *      推理:切成3的倍数x, 3的x次方最大,根据余数不同有三种情况
  *
- *      推理:切成3的倍数x, 3的x次方
  * </br>
  **/
 public class JZ14_1_CutRop {

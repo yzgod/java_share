@@ -29,34 +29,26 @@ public class JZ16_Pow {
         // 利用位移运算,快速幂
         public double myPow(double x, int n) {
             if(x == 0) return 0;
-            long b = n;
+            long ln = n > 0 ? n: -(long)n;
             double res = 1.0;
-            if(b < 0) {
-                x = 1 / x;
-                b = -b;
+            while(ln > 0) {
+                if((ln & 1) == 1) res *= x;//若有1位,结果*=x底数
+                x *= x; //每移动一位x底数翻倍
+                ln >>= 1;//右移动
             }
-            while(b > 0) {
-                if((b & 1) == 1) res *= x;
-                x *= x;
-                b >>= 1;
-            }
-            return res;
+            return n>0 ? res: 1/res;
         }
 
+        // 注意正负数
         public double myPow2(double x, int n) {
-            return pow2(x, n);
+            return n>0?pow2(x, n): 1/pow2(x, -n);
         }
 
         public double pow2(double x, long n) {
             if(n == 0) return 1;
-            boolean neg = false;
-            if(n <  0) {
-                n = -n;
-                neg = true;
-            }
             double res = pow2(x , n/2);
-            res = n % 2 ==0? res * res : res * res * x;
-            return neg? 1/res : res;
+            return n % 2 ==0? res * res : res * res * x;
         }
+
     }
 }

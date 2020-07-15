@@ -27,19 +27,21 @@ public class JZ18_DeleteNode {
     static class Solution {
 
         public ListNode deleteNode(ListNode cur, int val) {
-            ListNode head = cur;
-            ListNode pre = cur;
+            ListNode head = cur; //定义head节点
+            ListNode pre = null;  //定义前置节点
             while (cur != null){
                 if(cur.val == val){
-                    if(head.val == val){
-                        return head.next;
-                    }else {
-                        pre.next = cur.next;
-                        return head;
+                    // 若为头节点:返回头节点的下一个节点,并删除原头节点
+                    if(head.val == val) {
+                        ListNode next = head.next;
+                        head.next = null;//help GC
+                        return next;
                     }
+                    pre.next = cur.next;//前节点指向当前的下一个节点
+                    return head;
                 }
-                pre = cur;
-                cur = cur.next;
+                pre = cur; //前结点改为当前节点
+                cur = cur.next; //当前节点置为next节点
             }
             return head;
         }
