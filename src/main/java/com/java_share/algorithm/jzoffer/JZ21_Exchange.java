@@ -23,6 +23,7 @@ public class JZ21_Exchange {
     }
 
     static class Solution {
+
         public int[] exchange(int[] nums) {
             int l = 0, r = nums.length -1;
             while (l < r){
@@ -36,5 +37,6 @@ public class JZ21_Exchange {
             }
             return nums;
         }
+
     }
 }

@@ -22,14 +22,14 @@ public class JZ24_ReverseNode {
 
     static class Solution {
 
-        //双指针
         public ListNode reverseList(ListNode head) {
+            //定义当前指针和前指针
             ListNode cur = null, pre = head;
             while (pre != null){
-                ListNode tmp = pre.next;
-                pre.next = cur;
-                cur = pre;
-                pre = tmp;
+                ListNode next = pre.next;// 记录pre.next
+                pre.next = cur;// pre.next重置为当前
+                cur = pre;// 当前置为pre
+                pre = next;// pre置为next
             }
             return cur;
         }

@@ -18,11 +18,12 @@ public class JZ27_MirrorTree {
     static class Solution {
 
         public TreeNode mirrorTree(TreeNode root) {
-            if(root == null) return null;
-            TreeNode node = new TreeNode(root.val);
-            if(root.left != null)  node.right = mirrorTree(root.left);
-            if(root.right != null) node.left  = mirrorTree(root.right);
-            return node;
+            if(root == null) return null;//终结条件
+            TreeNode node = new TreeNode(root.val);// 定义新node
+            // 左右节点不为空,分解子问题,分别镜像左右子树
+            if(root.left != null) node.right=mirrorTree(root.left);
+            if(root.right!= null) node.left =mirrorTree(root.right);
+            return node;//返回新节点
         }
 
     }

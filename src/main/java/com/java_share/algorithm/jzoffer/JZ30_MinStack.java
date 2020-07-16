@@ -21,32 +21,20 @@ public class JZ30_MinStack {
     }
 
     static class MinStack {
-
         Stack<Integer> stack = new Stack<>();
         Stack<Integer> minStack = new Stack<>();
-
         public void push(int x) {
             stack.push(x);
-            if (minStack.isEmpty()) {
-                minStack.push(x);
-                return;
-            }
-            minStack.push(Math.min(minStack.peek(), x));
+            if (minStack.isEmpty()) minStack.push(x);
+            else minStack.push(Math.min(minStack.peek(), x));
         }
-
         public void pop() {
             if(stack.isEmpty()) return;
             minStack.pop();
             stack.pop();
         }
-
-        public int top() {
-            return stack.peek();
-        }
-
-        public int min() {
-            return minStack.peek();
-        }
+        public int top() { return stack.peek(); }
+        public int min() { return minStack.peek();}
     }
 
 /**
