@@ -3,7 +3,6 @@ package com.java_share.algorithm.jzoffer;
 import java.util.ArrayList;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Stack;
 
 /**
  * @author yz
@@ -13,7 +12,6 @@ import java.util.Stack;
  *
  *      输入一棵二叉树和一个整数，打印出二叉树中节点值的和为输入整数的所有路径。
  *      从树的根节点开始往下一直到叶节点所经过的节点形成一条路径。
- *
  * </br>
  * <p>
  * </p>
@@ -21,7 +19,8 @@ import java.util.Stack;
 public class JZ34_Tree_PathSum {
 
     public static void main(String[] args){
-        TreeNode node = TreeNode.levelDeserialize(5, 4, 8, 11, null, 13, 4, 7, 2, null, null, null, null, 5, 1);
+        TreeNode node = TreeNode.deserialize("[5, 4, 8, 11, null, 13, 4, 7, 2, null, null, 5, 1," +
+                " null,null,null,null,null,null,null,null]");
         List<List<Integer>> lists = new Solution().pathSum(node, 22);
         System.out.println(lists);
     }

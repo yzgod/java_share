@@ -4,31 +4,24 @@ import java.util.LinkedList;
 
 /**
  * @author yz
- * @date 2020-07-14 15:30
- * <br></br>
+ * @date 2020-07-17 09:37
+ * <br>
+ *     剑指 Offer 37. 序列化二叉树
+ * </br>
+ * <p>
+ *     层序遍历
+ * </p>
  **/
-public class TreeNode {
-    private static final Codec codec = new Codec();
+public class JZ37_SerializeTree {
 
-    int val;
-    TreeNode left;
-    TreeNode right;
-
-    public TreeNode(int val) {
-        this.val = val;
+    public static void main(String[] args){
+        Codec codec = new Codec();
+        TreeNode node = codec.deserialize("[1,2,3,null,4,null,5,null,null,7,8,null,null,null,null]");
+        System.out.println(codec.serialize(node));
     }
 
-    // 反序列化
-    public static TreeNode deserialize(String data){
-        return codec.deserialize(data);
-    }
 
-    // 序列化
-    public static String serialize(TreeNode node){
-        return codec.serialize(node);
-    }
-
-    static class Codec {
+    private static class Codec {
 
         // Encodes a tree to a single string.
         public String serialize(TreeNode root) {
@@ -75,5 +68,4 @@ public class TreeNode {
             return root;
         }
     }
-
 }

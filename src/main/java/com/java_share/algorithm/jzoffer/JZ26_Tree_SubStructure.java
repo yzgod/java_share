@@ -13,12 +13,12 @@ package com.java_share.algorithm.jzoffer;
 public class JZ26_Tree_SubStructure {
 
     public static void main(String[] args){
-        TreeNode tree1 = TreeNode.levelDeserialize(3, 4, 5, 1, 2, null, null);
-        TreeNode tree2 = TreeNode.levelDeserialize(4, 1, null);
+        TreeNode tree1 = TreeNode.deserialize("[3, 4, 5, 1, 2,null,null,null,null,null,null]");
+        TreeNode tree2 = TreeNode.deserialize("[4, 1, null,null,null]");
         System.out.println(new Solution().isSubStructure(tree1, tree2));
-        TreeNode tree3 = TreeNode.levelDeserialize(4, null, 2);
+        TreeNode tree3 = TreeNode.deserialize("[4, null, 2,null,null]");
         System.out.println(new Solution().isSubStructure(tree1, tree3));
-        TreeNode tree4 = TreeNode.levelDeserialize(3, 4, 5);
+        TreeNode tree4 = TreeNode.deserialize("[3, 4, 5,null,null,null,null]");
         System.out.println(new Solution().isSubStructure(tree1, tree4));
     }
 

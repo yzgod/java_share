@@ -19,8 +19,8 @@ import java.util.List;
 public class JZ32_3_TreeLevelOrder {
 
     public static void main(String[] args){
-        TreeNode node = TreeNode.levelDeserialize(1, 2, 3, 4, null, null, 5);
-//        TreeNode node = TreeNode.levelDeserialize(3,9,20,null,null,15,7);
+        TreeNode node = TreeNode.deserialize("[1, 2, 3, 4, null, null, 5,null,null,null,null]");
+//        TreeNode node = TreeNode.levelDeserialize("[3,9,20,null,null,15,7,null,null,null,null]");
         List<List<Integer>> list = new Solution().levelOrder(node);
         System.out.println(list);
     }

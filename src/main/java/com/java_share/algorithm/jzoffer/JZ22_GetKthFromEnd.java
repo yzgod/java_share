@@ -34,18 +34,17 @@ public class JZ22_GetKthFromEnd {
     static class Solution {
 
         public ListNode getKthFromEnd(ListNode cur, int k) {
-            ListNode head = cur;
-            ListNode slow = null;
+            ListNode head = cur, slow = null;// 定义两个指针
             int i = 0;
             while (cur != null) {
-                if(++i == k) slow = head;
-                if(i > k) slow = slow.next;
+                if(++i == k) slow = head;// 慢指针开始移动
+                if(i > k) slow = slow.next; // 慢指针移动
                 if(cur == null && slow != null) {
                     ListNode tmp = slow.next;
                     slow.next = null;
                     return tmp;
                 }
-                cur = cur.next;
+                cur = cur.next;// 快指针移动
             }
             return slow;
         }
