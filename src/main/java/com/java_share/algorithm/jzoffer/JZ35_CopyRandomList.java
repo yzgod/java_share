@@ -22,7 +22,6 @@ public class JZ35_CopyRandomList {
         Node h2 = new Node(2);
         h1.next = h2;
         h1.random = h2;
-
         Node node = new Solution().copyRandomList(h1);
         System.out.println(node);
     }
@@ -33,12 +32,11 @@ public class JZ35_CopyRandomList {
             if(cur == null) return null;
             Node head = cur;
             Map<Node, Node> map = new HashMap<>();
-            while (cur != null){
+            while (cur != null){// 建立索引
                 map.put(cur, new Node(cur.val));
                 cur = cur.next;
             }
-
-            Node res = map.get(head), tmp;
+            Node res = map.get(head), tmp; //res锁定head节点, 定义tmp用来建立关系
             while (head != null){
                 tmp = map.get(head);
                 tmp.next = map.get(head.next);

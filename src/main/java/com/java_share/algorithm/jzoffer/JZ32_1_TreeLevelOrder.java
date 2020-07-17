@@ -28,12 +28,11 @@ public class JZ32_1_TreeLevelOrder {
             while(!list.isEmpty()) {
                 TreeNode node = list.pop();
                 data.add(node.val);
-                if(node.left != null) list.add(node.left);
-                if(node.right != null) list.add(node.right);
+                if (node.left  != null) list.add(node.left); //添加子节点
+                if (node.right != null) list.add(node.right);
             }
             int[] res = new int[data.size()];
-            for(int i = 0; i < data.size(); i++)
-                res[i] = data.get(i);
+            for(int i = 0; i < data.size(); i++) res[i] = data.get(i);
             return res;
         }
 

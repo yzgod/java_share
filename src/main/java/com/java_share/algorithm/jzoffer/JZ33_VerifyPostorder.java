@@ -30,17 +30,25 @@ public class JZ33_VerifyPostorder {
     }
 
     static class Solution {
+
+
+        // last节点为root
+        // 1.若:cur<last,那么cur的左子树任何节点不能大于last(root)节点!
+        // 2.若:cur>last,那么cur在root的右子树,cur可以压入root栈
+        //  继续遍历cur右子树(root左子树不可能比cur大)
         public boolean verifyPostorder(int[] post) {
-            Stack<Integer> stack = new Stack<>();
-            int root = Integer.MAX_VALUE;
-            for (int i = post.length - 1; i >= 0; i--) {
-                if (post[i] > root) return false;
-                while (!stack.isEmpty() && stack.peek() > post[i]) {
-                    root = stack.pop();
+            Stack<Integer> rootStack = new Stack<>();// 用于存放各个子树的root节点
+            int root = Integer.MAX_VALUE;// max
+            for (int i = post.length - 1; i >= 0; i--) { // 倒序!!
+                int cur = post[i];
+                if (cur > root) return false;//cur节点比root节点大就不能是二叉搜索树
+                while (!rootStack.isEmpty() && rootStack.peek() > cur) {
+                    root = rootStack.pop();//如果last节点比cur节点大, 则弹出root节点
                 }
-                stack.push(post[i]);
+                rootStack.push(cur);
             }
             return true;
         }
+
     }
 }

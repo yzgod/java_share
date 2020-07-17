@@ -23,17 +23,20 @@ public class JZ31_ValidStackSequeuece {
     }
 
     static class Solution {
+
+        // pushed为压入序列, poped为弹出序列
         public boolean validateStackSequences(int[] pushed, int[] popped) {
             Stack<Integer> stack = new Stack<>();
             int k = 0;
             for (int i = 0; i < pushed.length; i++) {
                 stack.push(pushed[i]);
                 while (!stack.isEmpty() && stack.peek() == popped[k]){
-                    k++;
+                    k++;// 弹出序列指针++
                     stack.pop();
                 }
             }
             return stack.isEmpty();
         }
+
     }
 }

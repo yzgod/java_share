@@ -35,16 +35,15 @@ public class JZ34_Tree_PathSum {
         }
 
         private void dfs(List<List<Integer>> res,LinkedList<Integer> data, TreeNode root, int sum) {
-            if(root == null) return;
-            // 前序遍历
-            data.add(root.val);
+            if(root == null) return; // 终结条件
+            data.add(root.val);// 前序遍历
             sum -= root.val;
-            // sum=0 叶子节点
-            if(sum == 0 && root.left == null && root.right == null)
+            if(sum == 0 && root.left == null && root.right == null) // sum=0 必须为叶子节点
                 res.add(new ArrayList<>(data));
             dfs(res, data, root.left, sum); //左子树
             dfs(res, data, root.right, sum); //右子树
             data.removeLast(); // 清理回溯状态
         }
+
     }
 }
