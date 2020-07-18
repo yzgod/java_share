@@ -25,14 +25,13 @@ public class JZ39_MajorityElement {
         public int majorityElement(int[] nums) {
             int k = nums[0], votes = 1;
             for (int i = 1; i < nums.length; i++) {
-                int num = nums[i];
                 if (votes == 0) {// 重置投票
-                    k = num;
+                    k = nums[i];
                     votes = 1;
                     continue;
                 }
                 if (votes > nums.length - i ) return k; // votes大于剩下长度直接返回
-                if (k == num) votes++;
+                if (k == nums[i]) votes++;
                 else votes--;
             }
             return k;

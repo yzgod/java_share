@@ -25,20 +25,20 @@ public class JZ40_LeastNumbers {
 
     static class Solution {
 
-        //利用快排思想
+        // 利用快排思想
         public int[] getLeastNumbers(int[] arr, int k) {
             if (k == 0 || arr.length == 0) return new int[0];
             int l = 0, r = arr.length -1;
             while (true){
-                int mid = dfs(arr, l, r);
-                if (mid == k - 1) return Arrays.copyOfRange(arr, 0, k);
-                else if (mid > k - 1) r = mid - 1;
-                else l = mid + 1;
+                int mid = dfs(arr, l, r);//中间index
+                if (mid == k - 1) return Arrays.copyOfRange(arr, 0, k);//刚好相等,终结返回
+                else if (mid > k - 1) r = mid - 1;//index在k右侧,那么需要对[0,mid-1]快排
+                else l = mid + 1;//index在左侧,对[mid+1,r]快排
             }
         }
-        // 返回index
+        // 快排返回中间index
         private int dfs(int[] arr, int l, int r) {
-            int lt = l, tmp = arr[l];
+            int lt = l, tmp = arr[lt];
             while (l < r){
                 while (arr[r] >= tmp && l < r) r--;
                 while (arr[l] <= tmp && l < r) l++;
