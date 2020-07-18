@@ -27,14 +27,14 @@ public class JZ37_SerializeTree {
         public String serialize(TreeNode root) {
             if(root == null) return "[]";
             StringBuilder sb = new StringBuilder("[");
-            LinkedList<TreeNode> list = new LinkedList<>();
+            LinkedList<TreeNode> list = new LinkedList<>();//定义队列
             list.add(root);
             while(!list.isEmpty()) {
                 TreeNode node = list.pollFirst();
-                if (node == null) sb.append("null,");
+                if (node == null) sb.append("null,");//null也要记录,不然反序列化不正确
                 else {
                     sb.append(node.val + ",");
-                    list.add(node.left);
+                    list.add(node.left);//记录子树
                     list.add(node.right);
                 }
             }
@@ -49,13 +49,13 @@ public class JZ37_SerializeTree {
             data = data.replaceAll(" ", "");
             String[] values = data.substring(1, data.length() - 1).split(",");
             TreeNode root = new TreeNode(Integer.parseInt(values[0]));
-            LinkedList<TreeNode> list = new LinkedList<>();
+            LinkedList<TreeNode> list = new LinkedList<>();//定义队列
             list.add(root);
-            int k = 1; //从1开始
+            int k = 1; //从数组索引1开始
             while(!list.isEmpty()) {
                 TreeNode node = list.pollFirst();
                 if(!values[k].equals("null")) {
-                    node.left = new TreeNode(Integer.parseInt(values[k]));
+                    node.left = new TreeNode(Integer.parseInt(values[k]));//建立关系
                     list.add(node.left);
                 }
                 k++;

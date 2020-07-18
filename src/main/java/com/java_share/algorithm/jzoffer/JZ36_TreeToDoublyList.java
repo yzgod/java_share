@@ -27,28 +27,26 @@ public class JZ36_TreeToDoublyList {
 
     static class Solution {
 
+        // 定义pre节点和head节点
         Node pre, head;
-
-        // 中序递增
         public Node treeToDoublyList(Node node) {
             if (node == null) return null;
+            head = node;
             dfs(node);
-            head.left = pre;
+            head.left = pre; //最后连接head和pre
             pre.right = head;
             return head;
         }
-
         // 中序遍历
-        private void dfs(Node node) {
-            if (node == null) return;
-            dfs(node.left);
-            if (pre == null)
-                head = node;
-            else
-                pre.right = node;
-            node.left = pre;
-            pre = node;
-            dfs(node.right);
+        private void dfs(Node cur) {
+            if (cur == null) return;
+            dfs(cur.left);//左
+            // 处理中间逻辑
+            if (pre == null) head = cur;// 此时找到head即为最小的左节点
+            else pre.right = cur;//pre的right指向当前节点
+            cur.left = pre;//当前node的left指向pre,形成环
+            pre = cur;//pre切换指向当前node
+            dfs(cur.right);//右
         }
 
 
