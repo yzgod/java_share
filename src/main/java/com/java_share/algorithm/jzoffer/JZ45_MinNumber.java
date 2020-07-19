@@ -20,11 +20,10 @@ public class JZ45_MinNumber {
 
         //利用堆完成
         public String minNumber(int[] nums) {
-            PriorityQueue<Integer> heap = new PriorityQueue<>((o1, o2) -> {
-                long l0 = Long.parseLong(o1.toString() + o2.toString());
-                long l1 = Long.parseLong(o2.toString() + o1.toString());
-                return Long.compare(l0, l1);
-            });
+            //最小的数字字符串会排在前面
+            PriorityQueue<Integer> heap = new PriorityQueue<>((o1, o2)
+                    -> (o1.toString() + o2.toString())
+                    .compareTo(o2.toString() + o1.toString()));
             for (int num : nums) {
                 heap.add(num);
             }

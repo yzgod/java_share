@@ -24,17 +24,20 @@ public class JZ46_TranslateNum {
 
     static class Solution {
 
+
         public int translateNum(int num) {
             String s = String.valueOf(num);
-            int sum = 1, preSum = 1;
+            // dp[0]=1,dp[1]=1
+            int dp_i = 1, dp_i1 = 1, dp_i2 = 1;
             for(int i = 2; i <= s.length(); i++) {
-                String str2 = s.substring(i - 2, i);
-                int temp = str2.compareTo("10") >= 0 && str2.compareTo("25") <= 0
-                        ? sum + preSum : sum;
-                preSum = sum;
-                sum = temp;
+                String sub = s.substring(i - 2, i);
+                // 可翻译: dp[i]=dp[i-1]+dp[i-2] 不可翻译: dp[i]=dp[i-1]
+                dp_i = sub.compareTo("10") >= 0 && sub.compareTo("25") <= 0
+                        ? dp_i1 + dp_i2 : dp_i1;
+                dp_i2 = dp_i1;// 移动
+                dp_i1 = dp_i;// 移动
             }
-            return sum;
+            return dp_i;
         }
 
     }

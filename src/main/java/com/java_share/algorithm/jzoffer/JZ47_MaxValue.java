@@ -32,11 +32,12 @@ public class JZ47_MaxValue {
         public int maxValue(int[][] grid) {
             int yLen = grid.length, xLen = grid[0].length;
             for (int y = 0; y < yLen; y++) {
-                for (int x = 0; x < xLen; x++) {// 先走两边
+                for (int x = 0; x < xLen; x++) {// 先走右边
                     if (x == 0 && y == 0) continue;//起点
                     if (x == 0) grid[y][x] += grid[y-1][x];//往下走
                     else if (y == 0) grid[y][x] += grid[y][x-1];//往右走
-                    else grid[y][x] += Math.max(grid[y][x-1], grid[y-1][x]);//对比左边和上边相邻的值取max
+                    //对比左边和上边相邻的值取max
+                    else grid[y][x] += Math.max(grid[y][x-1], grid[y-1][x]);
                 }
             }
             return grid[yLen-1][xLen-1];//终点

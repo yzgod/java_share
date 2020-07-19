@@ -25,15 +25,17 @@ public class JZ48_LengthOfLongestSubstring {
 
         public int lengthOfLongestSubstring(String s) {
             Map<Character, Integer> map = new HashMap<>();
-            int res = 0, tmp = 0;
+            int max = 0, curLen = 0;//max记录不间断的最大长度,curLen记录当前不重复的长度
             for (int i = 0; i < s.length(); i++) {
                 char c = s.charAt(i);
-                int index = map.getOrDefault(c, -1);
-                map.put(c, i);
-                tmp = tmp < i-index ? tmp+1:i-index;
-                res = Math.max(res, tmp);
+                int preIndex = map.getOrDefault(c, -1);//上次出现索引,不存在为-1
+                map.put(c, i);//更新至当前索引
+                int cLen = i - preIndex;//这个元素的间隔
+                if (curLen < cLen) curLen++;//curLen++
+                else curLen = cLen;//curLen重置
+                max = Math.max(max, curLen);
             }
-            return res;
+            return max;
         }
 
     }
