@@ -15,72 +15,62 @@ public class CacheLine {
     static int num  = 1_0000_0000;
     static int thread_num  = 2;
 
-    // 使用数组,让两个对象的缓存行连续
-    static T[] arr = new T[2];
-
-    static {
-        arr[0] = new T1();
-        System.out.println(ClassLayout.parseClass(T1.class).toPrintable(arr[0]));
-        arr[1] = new T2();
-        System.out.println(ClassLayout.parseClass(T2.class).toPrintable(arr[1]));
-    }
-
     public static void main(String[] args) throws Exception{
-        testContented();
-        testNoContented();
+        System.out.println(ClassLayout.parseClass(T1.class).toPrintable());
+        System.out.println(ClassLayout.parseClass(T2.class).toPrintable());
+        cacheLineAlign();
+        cacheLineNotAlign();
+    }
+    private static void cacheLineAlign() throws InterruptedException {
+        CountDownLatch countDownLatch = new CountDownLatch(2 * thread_num);
+        T1 t = new T1();
+        long start = System.currentTimeMillis();
+        for (int i = 0; i < thread_num; i++) {
+            new Thread(()->{
+                for (int j = 0; j < num; j++) t.a = j;
+                countDownLatch.countDown();
+            }).start();
+            new Thread(()->{
+                for (int j = 0; j < num; j++) t.b = j;
+                countDownLatch.countDown();
+            }).start();
+        }
+        countDownLatch.await();
+        long end = System.currentTimeMillis();
+        System.out.println("缓存行对齐耗时:"+(end - start));
     }
 
-    private static void testContented() throws InterruptedException {
+    private static void cacheLineNotAlign() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(thread_num);
+        T2 t = new T2();
         long start = System.currentTimeMillis();
         for (int i = 0; i < thread_num; i++) {
             new Thread(()->{
                 for (int j = 0; j < num; j++) {
-                    arr[0].test(j);
+                    t.a = j;
+                }
+                countDownLatch.countDown();
+            }).start();
+            new Thread(()->{
+                for (int j = 0; j < num; j++) {
+                    t.b = j;
                 }
                 countDownLatch.countDown();
             }).start();
         }
         countDownLatch.await();
         long end = System.currentTimeMillis();
-        System.out.println("T1 耗时:"+(end - start));
-    }
-    private static void testNoContented() throws InterruptedException {
-        CountDownLatch countDownLatch = new CountDownLatch(thread_num);
-        long start = System.currentTimeMillis();
-        for (int i = 0; i < thread_num; i++) {
-            new Thread(()->{
-                for (int j = 0; j < num; j++) {
-                    arr[1].test(j);
-                }
-                countDownLatch.countDown();
-            }).start();
-        }
-        countDownLatch.await();
-        long end = System.currentTimeMillis();
-        System.out.println("T2 耗时:"+(end - start));
+        System.out.println("缓存行未对齐耗时:"+(end - start));
     }
 
-    static class T1 implements T{
+    static class T1{
+        volatile long a;
         // 占用 56 byte
         volatile long p1,p2,p3,p4,p5,p6,p7;
+        volatile long b;
+    }
+    static class T2 {
         volatile long a;
-
-        @Override
-        public void test(long a) {
-            this.a = a;
-        }
+        volatile long b;
     }
-    static class T2 implements T{
-        volatile long a;
-        @Override
-        public void test(long a) {
-            this.a = a;
-        }
-    }
-
-    interface T {
-        void test(long a);
-    }
-
 }

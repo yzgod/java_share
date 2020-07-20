@@ -19,27 +19,22 @@ public class CacheLine_Contented {
 
 
     public static void main(String[] args) throws Exception{
+        System.out.println(ClassLayout.parseClass(Contented.class).toPrintable());
+        System.out.println(ClassLayout.parseClass(NoContented.class).toPrintable());
         testContented();
         testNoContented();
     }
-
     private static void testContented() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(2 * thread_num);
         Contented contented = new Contented();
-        System.out.println(ClassLayout.parseClass(Contented.class).toPrintable(contented));
-
         long start = System.currentTimeMillis();
         for (int i = 0; i < thread_num; i++) {
             new Thread(()->{
-                for (int j = 0; j < num; j++) {
-                    contented.a = j;
-                }
+                for (int j = 0; j < num; j++) contented.a = j;
                 countDownLatch.countDown();
             }).start();
             new Thread(()->{
-                for (int j = 0; j < num; j++) {
-                    contented.b = j;
-                }
+                for (int j = 0; j < num; j++) contented.b = j;
                 countDownLatch.countDown();
             }).start();
         }
@@ -50,20 +45,14 @@ public class CacheLine_Contented {
     private static void testNoContented() throws InterruptedException {
         CountDownLatch countDownLatch = new CountDownLatch(2 * thread_num);
         NoContented noContented = new NoContented();
-        System.out.println(ClassLayout.parseClass(NoContented.class).toPrintable(noContented));
-
         long start = System.currentTimeMillis();
         for (int i = 0; i < thread_num; i++) {
             new Thread(()->{
-                for (int j = 0; j < num; j++) {
-                    noContented.a = j;
-                }
+                for (int j = 0; j < num; j++) noContented.a = j;
                 countDownLatch.countDown();
             }).start();
             new Thread(()->{
-                for (int j = 0; j < num; j++) {
-                    noContented.b = j;
-                }
+                for (int j = 0; j < num; j++) noContented.b = j;
                 countDownLatch.countDown();
             }).start();
         }
@@ -72,13 +61,13 @@ public class CacheLine_Contented {
         System.out.println("No_contented 耗时:"+(end - start));
     }
 
+    //@Contented
     static class Contented{
         @Contended
         volatile long a;
         @Contended
         volatile long b;
     }
-
     static class NoContented{
         volatile long a;
         volatile long b;
