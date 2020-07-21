@@ -12,8 +12,7 @@ import java.util.concurrent.atomic.LongAdder;
 public class LongAdderTest {
 
     static int threadNum = 1000;
-    static int addNums = 100000;
-
+    static int addNums = 1000000;
     public static void main(String[] args) throws InterruptedException {
         new Sync().test();
         new Atomic().test();
@@ -21,7 +20,7 @@ public class LongAdderTest {
     }
 
 
-    static class Sync{
+    static class Sync {
         long count = 0L;
         Object lock = new Object();
         void test() throws InterruptedException {
