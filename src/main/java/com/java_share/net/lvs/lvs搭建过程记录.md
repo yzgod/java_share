@@ -21,7 +21,7 @@ NETMASK=255.255.255.0
 设置静态的ip地址(4台机器不同),设置相同的网关和子网掩代码
 
 2. 配置dns vi /etc/resolv.conf访问外网
-3. 重启网络服务systemctl restart network
+3. 为了简单,注意关闭防火墙,重启网络服务systemctl restart network
 4. 更新yum源 
     yum install -y epel-release
     yum update
@@ -71,7 +71,7 @@ NETMASK=255.255.255.0
     route add -host 10.211.55.100 dev lo:3
     将VIP的流量通过lo:3接口发出去
 
-2. 设置arp协议
+2. 设置arp协议,
     echo 1 > /proc/sys/net/ipv4/conf/eth0/arp_ignore 
     echo 2 > /proc/sys/net/ipv4/conf/eth0/arp_announce 
     echo 1 > /proc/sys/net/ipv4/conf/all/arp_ignore 
@@ -92,7 +92,7 @@ NETMASK=255.255.255.0
 2. vi /etc/keepalived/keepalived.conf
 我的yz30主节点配置如下,权重为yz20 10, yz21 8:
 global_defs {
-   router_id LVS_DEVEL
+   router_id LVS_node1
 }
 vrrp_instance VI_1 {
     state MASTER
@@ -143,7 +143,7 @@ virtual_server 10.211.55.100 80 {
 yz10备用节点配置如下:
 主要修改了state,priority,权重为yz20 15,yz21 20,为了待会儿测试验证
 global_defs {
-   router_id LVS_DEVEL
+   router_id LVS_node2
 }
 vrrp_instance VI_1 {
     state BACKUP
@@ -211,3 +211,6 @@ virtual_server 10.211.55.100 80 {
     
     
 
+踩坑记录: 
+    由于宿主机开了代理,并发测试时出现大量的Time_wait连接
+    

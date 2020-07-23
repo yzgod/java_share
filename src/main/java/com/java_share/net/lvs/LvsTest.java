@@ -1,7 +1,6 @@
 package com.java_share.net.lvs;
 
 import com.netflix.hystrix.util.HystrixRollingNumber;
-import okhttp3.Call;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
@@ -20,8 +19,7 @@ import static com.netflix.hystrix.util.HystrixRollingNumberEvent.SUCCESS;
  **/
 public class LvsTest {
 
-    static int threadNum = 40;
-
+    static int threadNum = 50;
     public static void main(String[] args){
         LongAdder count = new LongAdder();
         HystrixRollingNumber ip_20 = new HystrixRollingNumber(1000, 100);
