@@ -1,4 +1,4 @@
-###### **环境准备**
+## **环境准备**
 笔者使用的os x系统,因此使用了Parallel Desktop虚拟机.
 虚拟机安装系统 cent_os7.4(安装的时候选择web server版,不需要GUI)
 先安装一台实例
@@ -40,7 +40,7 @@ NETMASK=255.255.255.0
     访问 http://10.211.55.20:/lvs 返回 10.211.55.20
     访问 http://10.211.55.21:/lvs 返回 10.211.55.21
 
-###### **DS配置**
+## **DS配置**
 配置DS节点yz30, VIP
 1. 先在DS节点开启IP转发 
     echo 1 > /proc/sys/net/ipv4/ip_forward
@@ -63,7 +63,7 @@ NETMASK=255.255.255.0
     
 到这一步,DS的VIP配置就好了.
 
-###### **RS配置**
+## **RS配置**
 分别在yz20,yz21做以下配置:
 
 1. 设置VIP
@@ -78,13 +78,13 @@ NETMASK=255.255.255.0
     echo 2 > /proc/sys/net/ipv4/conf/all/arp_announce 
     
 
-###### **单点LVS部署完成**
+## **单点LVS部署完成**
 测试:请求http://10.211.55.100/lvs
 可以用LvsTest测试观察QPS情况
 
 
 
-###### **利用keepalived部署高可用的LVS集群**
+## **利用keepalived部署高可用的LVS集群**
 
 1. 在yz30和yz10(备用节点)上安装keepalived.
     yum install keepalived -y
@@ -211,6 +211,7 @@ virtual_server 10.211.55.100 80 {
     
     
 
-踩坑记录: 
-    由于宿主机开了代理,并发测试时出现大量的Time_wait连接
+## **踩坑记录**:
+
+由于宿主机开了代理,并发测试时出现大量的Time_wait连接
     
