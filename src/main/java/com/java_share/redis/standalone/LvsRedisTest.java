@@ -16,7 +16,7 @@ import static com.netflix.hystrix.util.HystrixRollingNumberEvent.SUCCESS;
  **/
 public class LvsRedisTest {
 
-    static int threadNum = 20;
+    static int threadNum = 40;
     public static void main(String[] args){
         GenericObjectPoolConfig config = new GenericObjectPoolConfig();
         config.setMaxTotal(threadNum);
