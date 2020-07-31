@@ -9,7 +9,7 @@ import redis.clients.jedis.JedisPool;
  * @date 2020-07-30 02:09
  * <p></p>
  **/
-public class InsetCheckTest {
+public class IntSetCheckTest {
 
     public static void main(String[] args){
         JedisPool pool = createPool();
