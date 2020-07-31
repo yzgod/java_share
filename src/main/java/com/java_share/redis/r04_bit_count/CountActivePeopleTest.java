@@ -7,7 +7,6 @@ import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
 import java.text.SimpleDateFormat;
-import java.time.LocalDate;
 import java.util.Date;
 import java.util.Random;
 import java.util.concurrent.CountDownLatch;
@@ -74,6 +73,12 @@ public class CountActivePeopleTest {
         bitOp(pool, BitOP.OR, key, keys);
         Long count = bitCount(pool, key);
         System.out.println(key+" 最近三天活跃用户数:"+ count);
+
+        String awaysKey = key_prefix +"aways";
+        delKey(pool, awaysKey);
+        bitOp(pool, BitOP.AND, awaysKey, keys);
+        Long alwaysCount = bitCount(pool, awaysKey);
+        System.out.println(awaysKey+" 连续三天活跃用户数:"+ alwaysCount);
     }
 
     private static Long bitCount(JedisPool pool, String key) {
