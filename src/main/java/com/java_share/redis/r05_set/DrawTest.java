@@ -1,11 +1,9 @@
 package com.java_share.redis.r05_set;
 
-import org.apache.commons.lang.enums.Enum;
 import org.apache.commons.pool2.impl.GenericObjectPoolConfig;
 import redis.clients.jedis.Jedis;
 import redis.clients.jedis.JedisPool;
 
-import java.util.Arrays;
 import java.util.List;
 
 /**
