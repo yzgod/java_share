@@ -32,7 +32,7 @@ public class JZ53_SearchInSortedArray {
             while (max >= min) {
                 int mid = (max + min) / 2;
                 if (nums[mid] > target) max = mid - 1;
-                else min = mid + 1;
+                else min = mid + 1;// 找最大的index
             }
             return min;
         }
