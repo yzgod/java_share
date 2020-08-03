@@ -10,7 +10,7 @@ import sun.java2d.xr.XRMaskImage;
  *      统计一个数字在排序数组中出现的次数。
  * </p>
  **/
-public class JZ53_SearchInSortedArray {
+public class JZ53_1_SearchInSortedArray {
 
     public static void main(String[] args){
         int[] arr = new int[]{5,6,6,8,8,10};
