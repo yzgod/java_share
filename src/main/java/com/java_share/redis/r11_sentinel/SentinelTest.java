@@ -39,9 +39,13 @@ public class SentinelTest {
                 }
             }
         }).start();
-        while (true){
-            redisTemplate.opsForValue().get("k0");
-            rollingNumber.add(HystrixRollingNumberEvent.SUCCESS, 1);
+        for (int i = 0; i < 60; i++) {
+            new Thread(()->{
+                while (true){
+                    redisTemplate.opsForValue().get("k0");
+                    rollingNumber.add(HystrixRollingNumberEvent.SUCCESS, 1);
+                }
+            }).start();
         }
     }
 
