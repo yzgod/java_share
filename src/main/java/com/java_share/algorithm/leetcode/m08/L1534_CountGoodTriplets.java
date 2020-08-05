@@ -5,6 +5,8 @@ package com.java_share.algorithm.leetcode.m08;
  * @date 2020-08-05 15:35
  * <p>
  *     1534. 统计好三元组
+ *     https://leetcode-cn.com/problems/count-good-triplets/submissions/
+ *
  * </p>
  **/
 public class L1534_CountGoodTriplets {
