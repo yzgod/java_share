@@ -100,17 +100,16 @@ public class WatchCallBack
     //getChildren  call back
     @Override
     public void processResult(int rc, String path, Object ctx, List<String> children, Stat stat) {
-
+        // 每次都重新拿children排序,保证每次都是节点最小的获得锁countdown
         Collections.sort(children);
+        System.out.println("剩余子树节点:"+children.size());
         String sb = pathName.substring(6);
         if (sb.equals(children.get(0))){
-            //yes
             System.out.println(threadName +" i am first....");
 //                zk.setData("/lock",threadName.getBytes(),-1);// 设置标识id,实现可重入锁
-                cc.countDown();
+            cc.countDown();
         }else{
             int i = Collections.binarySearch(children, sb);
-            //no
             zk.exists("/lock/"+children.get(i-1),this,this,"sdf");
         }
 
