@@ -1,4 +1,4 @@
-package com.java_share.zookeeper.code;
+package com.java_share.zookeeper;
 
 import org.apache.zookeeper.WatchedEvent;
 import org.apache.zookeeper.Watcher;
@@ -21,7 +21,7 @@ public class ZKFactory {
         return new ZkWrapper(url, 2000, new DefaultWatcher());
     }
 
-    static class ZkWrapper {
+    public static class ZkWrapper {
 
         private ZooKeeper zk;
 

@@ -1,5 +1,6 @@
-package com.java_share.zookeeper.code;
+package com.java_share.zookeeper.config;
 
+import com.java_share.zookeeper.ZKFactory;
 import org.apache.zookeeper.ZooKeeper;
 
 import java.util.Date;

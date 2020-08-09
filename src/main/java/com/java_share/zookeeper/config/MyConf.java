@@ -1,4 +1,4 @@
-package com.java_share.zookeeper.code;
+package com.java_share.zookeeper.config;
 
 import lombok.Data;
 
