@@ -106,14 +106,8 @@ public class WatchCallBack
         if (sb.equals(children.get(0))){
             //yes
             System.out.println(threadName +" i am first....");
-            try {
-                zk.setData("/lock",threadName.getBytes(),-1);
+//                zk.setData("/lock",threadName.getBytes(),-1);// 设置标识id,实现可重入锁
                 cc.countDown();
-            } catch (KeeperException e) {
-                e.printStackTrace();
-            } catch (InterruptedException e) {
-                e.printStackTrace();
-            }
         }else{
             int i = Collections.binarySearch(children, sb);
             //no
