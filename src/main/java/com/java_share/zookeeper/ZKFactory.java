@@ -13,8 +13,7 @@ import java.util.concurrent.CountDownLatch;
  **/
 public class ZKFactory {
 
-    private static String url = "10.211.55.20:2181,10.211.55.21:2181," +
-            "10.211.55.10:2181,10.211.55.30:2181";
+    private static String url = "10.211.55.20:2181,10.211.55.21:2181,10.211.55.10:2181,10.211.55.30:2181";
 
 
     public static ZkWrapper createSession(){
