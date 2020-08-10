@@ -24,7 +24,11 @@ public class C07_EvenTimesOddTimes {
 		int[] nums2 = {1, 1, 2, 3, 2, 5, 3, 8, 7,7,9,9,111,111};
 		System.out.println(Arrays.toString(oddTimes2(nums2)));
 
-		System.out.println(40 & (~40 + 1));
+		System.out.println(bitCount(Integer.MAX_VALUE));
+		System.out.println(bitCount(-1));
+		System.out.println(bitCount(~0));
+		System.out.println(~0);
+		System.out.println(~-1);
 	}
 
 	// 数组中只有一个数出现1次
@@ -39,8 +43,8 @@ public class C07_EvenTimesOddTimes {
 	// 两个数抑或^
 	// 1 1 1 0 0 0
 	// 1 0 1 1 0 0
-	// 1 0 1 0 0 0
-	//     ^ 第一个相同的1位
+	// 0 1 0 1 0 0
+	//       ^ 第一个相同的1位
 	private static int[] oddTimes2(int[] nums) {
 		int tmp = 0;
 		for (int num : nums)
@@ -57,5 +61,18 @@ public class C07_EvenTimesOddTimes {
 		return new int[]{r1, r2};
 	}
 
+
+
+	// 快速的求出bitcount有多少个1, 比如redis中的bitMap 取count
+	// 一个个数较慢,
+	public static int bitCount(int x){
+		int res = 0;
+		while (x != 0) {//比遍历32次快, 当位数达到上亿位的时候效率就很可观了.
+			int r = x & (~x + 1);// 找出最右的1
+			x ^= r;// 去除最右的1
+			res ++;
+		}
+		return res;
+	}
 
 }

@@ -7,7 +7,7 @@ package com.java_share.algorithm.msb.base.class01;
  *     3. 在有序数组中,查找<=某个数最右侧的位置.
  * </p>
  **/
-public class C06_BsNearRight {
+public class C05_BsNearRight {
 
     public static void main(String[] args){
         int[] nums = {1, 2, 4, 5,5,5,5,5,5, 8, 9, 11, 18};
