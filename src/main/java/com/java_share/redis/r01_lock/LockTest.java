@@ -44,6 +44,7 @@ public class LockTest {
     private static JedisPool createPool() {
         GenericObjectPoolConfig config = new GenericObjectPoolConfig();
         config.setMaxTotal(threadNum);
+
         return new JedisPool(config, "10.211.55.20", 6379);
     }
 
