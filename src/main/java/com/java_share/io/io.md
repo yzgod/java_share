@@ -59,3 +59,43 @@ exec 10>&-
 # 管道
 { a=9; echo "fgdfg" ; } | cat
 管道会新启动一个进程, 所以父进程的a不会被改变
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+# socket参数含义
+
+server.bind(new InetSocketAddress(8821), BACK_LOG);
+backlog设置接入等待accept连接队列的最大长度.
+做实验可以发现,超过的连接数等待一段时间会抛出timeout:
+java.net.ConnectException: Operation timed out (Connection timed out)
+
+
+TCP_NODELAY  tcp延迟, 启用意味着禁用nagle算法, 禁用意味着开启nagle算法
+启用时,按照内核调度该发送就发送了,比较零散
+禁用时根据nagle算法,会尽量攒一个大点的包发送,会有延迟
+https://blog.csdn.net/lclwjl/article/details/80154565
+
+
+
+# TCP拥塞控制
+https://zhuanlan.zhihu.com/p/76023663
