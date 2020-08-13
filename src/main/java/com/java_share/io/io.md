@@ -60,25 +60,45 @@ exec 10>&-
 { a=9; echo "fgdfg" ; } | cat
 管道会新启动一个进程, 所以父进程的a不会被改变
 
+# IO
+pcstat 观察pageCache的缓存情况
+
+
+vm.dirty_background_ratio = 90
+vm.dirty_ratio = 90
+vm.dirty_writeback_centisecs = 5000
+vm.dirty_expire_centisecs = 30000
+
+vm.dirty_background_ratio = 0
+vm.dirty_background_bytes = 1048576
+vm.dirty_ratio = 0
+vm.dirty_bytes = 1048576
+
+
+dirty 内存与磁盘数据不一致,内存修改过
+vi  /etc/sysctl.conf 修改
+vm.dirty_background_ratio = 90  脏数据比例cache90%
+vm.dirty_ratio = 90
+vm.dirty_writeback_centisecs = 500  指定多长时间做一次脏数据写回操作，默认5s
+vm.dirty_expire_centisecs = 3000  指定脏数据能存活的时间，单位为百分之一秒  默认30s
+
+sysctl -p  使配置生效
+
+java OSFileIO 0  写入文件
+虚拟机断电,会发现文件没有写入
+
+使用strace监控进程的系统调用
+strace -tt -f -o ./output.log -p {pid}
+可以发现,有buffer的系统调用次数更少,性能更强
+strace 监听java程序
+strace -ff -o out java Test  执行java并监听
 
 
 
+# java中的mmap
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+    java中的FileChannel，提供了map和force方法，map创建文件和内存的映射， 
+        返回一个MappedByteBuffer，这是
 
 
 
