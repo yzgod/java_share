@@ -1,4 +1,4 @@
-package com.java_share.base.l08_read_write_lock;
+package com.java_share.juc.l08_read_write_lock;
 
 import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;

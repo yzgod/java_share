@@ -1,4 +1,4 @@
-package com.java_share.base.l02_synchronized;
+package com.java_share.juc.l02_synchronized;
 
 /**
  * @author yz

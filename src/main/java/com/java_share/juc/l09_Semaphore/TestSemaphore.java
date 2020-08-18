@@ -1,4 +1,4 @@
-package com.java_share.base.l09_Semaphore;
+package com.java_share.juc.l09_Semaphore;
 
 import java.util.concurrent.Semaphore;
 

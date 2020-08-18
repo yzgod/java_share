@@ -1,4 +1,4 @@
-package com.java_share.base.l04_reentrantlock;
+package com.java_share.juc.l04_reentrantlock;
 
 /**
  * @author yz

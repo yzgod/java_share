@@ -1,4 +1,4 @@
-package com.java_share.base.l01_cpu_disorder;
+package com.java_share.juc.l01_cpu_disorder;
 
 import java.util.ArrayList;
 import java.util.List;

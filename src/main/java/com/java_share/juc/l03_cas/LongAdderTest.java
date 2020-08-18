@@ -1,4 +1,4 @@
-package com.java_share.base.l03_cas;
+package com.java_share.juc.l03_cas;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.atomic.AtomicLong;

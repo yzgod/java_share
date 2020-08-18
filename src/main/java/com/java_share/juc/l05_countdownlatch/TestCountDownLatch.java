@@ -1,4 +1,4 @@
-package com.java_share.base.l05_countdownlatch;
+package com.java_share.juc.l05_countdownlatch;
 
 import java.util.concurrent.CountDownLatch;
 import java.util.concurrent.TimeUnit;

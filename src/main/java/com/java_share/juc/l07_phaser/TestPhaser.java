@@ -1,4 +1,4 @@
-package com.java_share.base.l07_phaser;
+package com.java_share.juc.l07_phaser;
 
 import com.google.common.collect.Lists;
 

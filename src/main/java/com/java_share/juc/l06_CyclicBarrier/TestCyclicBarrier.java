@@ -1,4 +1,4 @@
-package com.java_share.base.l06_CyclicBarrier;
+package com.java_share.juc.l06_CyclicBarrier;
 
 import java.util.concurrent.CyclicBarrier;
 import java.util.concurrent.TimeUnit;

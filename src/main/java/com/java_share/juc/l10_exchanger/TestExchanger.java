@@ -1,4 +1,4 @@
-package com.java_share.base.l10_exchanger;
+package com.java_share.juc.l10_exchanger;
 
 import java.util.concurrent.Exchanger;
 
