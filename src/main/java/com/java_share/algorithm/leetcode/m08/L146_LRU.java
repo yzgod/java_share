@@ -47,62 +47,58 @@ public class L146_LRU {
             if (capacity <1) capacity = 1;
             map = new HashMap<>(capacity);
             this.capacity = capacity;
-            head = new Node(-1,-1, null, null){
-                @Override
-                public String toString() {
-                    return "head";
-                }
-            };
-            tail = new Node(-1,-1, head, null) {
-                @Override
-                public String toString() {
-                    return "tail";
-                }
-            };
+            head = new Node(-1,-1);
+            tail = new Node(-1,-1);
+            tail.pre = head;
             head.next = tail;
         }
 
         public int get(int key) {
             Node node = map.get(key);
             if (node == null) return -1;
-            Node pre = node.pre;
-            node.next.pre = pre;
-            pre.next = node.next;
-
-            node.pre = head;
-            Node sec = head.next;
-            head.next = node;
-            sec.pre = node;
-            node.next = sec;
+            move2Head(node);
             return node.val;
         }
 
         public void put(int key, int value) {
             Node node = map.get(key);
             if (node == null) {// 添加
-                Node newNode = new Node(key, value, head, head.next);
-                head.next.pre = newNode;
-                head.next = newNode;
+                Node newNode = new Node(key, value);
+                addHead(newNode);
                 if (map.size() >= capacity) {// 淘汰
-                    Node tmp = tail.pre;
-                    tail.pre = tmp.pre;
-                    tmp.pre.next = tail;
-                    tmp.next = null;// help gc
-                    tmp.pre = null;
+                    Node tmp = removeTail();
                     map.remove(tmp.key);
                 }
                 map.put(key, newNode);
             }else {// 修改
-                node.pre.next = node.next;
-                node.next.pre = node.pre;
-
-                node.pre = head;
-                node.next = head.next;
-                head.next.pre = node;
-                head.next = node;
-
+                move2Head(node);
                 node.val = value;// 修改数据
             }
+        }
+
+        // 将节点移动到头节点
+        private void move2Head(Node node) {
+            node.next.pre = node.pre;
+            node.pre.next = node.next;
+            addHead(node);
+        }
+
+        // 添加到头节点
+        private void addHead(Node node) {
+            node.pre = head;
+            node.next = head.next;
+            head.next.pre = node;
+            head.next = node;
+        }
+
+        // 删除尾结点
+        private Node removeTail() {
+            Node tmp = tail.pre;
+            tail.pre = tmp.pre;
+            tmp.pre.next = tail;
+            tmp.next = null;// help gc
+            tmp.pre = null;
+            return tmp;
         }
 
         class Node {
@@ -111,11 +107,9 @@ public class L146_LRU {
             Node pre;
             Node next;
 
-            public Node(int key, int val, Node pre, Node next) {
+            public Node(int key, int val) {
                 this.key = key;
                 this.val = val;
-                this.pre = pre;
-                this.next = next;
             }
 
             @Override
