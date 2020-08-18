@@ -16,9 +16,8 @@ public class C08_GetMax {
 
     private static int dfs(int[] arr, int l, int r) {
         if (l == r) return arr[l];
-        if (l == r - 1) return arr[r];
         int mid = (l + r) / 2;
-        return Math.max(dfs(arr, l, mid), dfs(arr, mid, r));
+        return Math.max(dfs(arr, l, mid), dfs(arr, mid + 1, r));
     }
 
     public static void main(String[] args){
