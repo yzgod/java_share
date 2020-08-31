@@ -14,7 +14,7 @@ public class SocketMultiplexingSingleThreadv1 {
 
     private ServerSocketChannel server = null;
     private Selector selector = null;
-    int port = 9090;
+    int port = 9091;
 
     public void initServer() {
         try {
@@ -31,10 +31,11 @@ public class SocketMultiplexingSingleThreadv1 {
     public void start() {
         initServer();
         System.out.println("服务器启动了。。。。。");
+        int sum = 0;
         try {
             while (true) {
                 Set<SelectionKey> keys = selector.keys();
-                System.out.println(keys.size()+"   size");
+//                System.out.println(keys.size()+"   size");
                 while (selector.select(500) > 0) {
                     Set<SelectionKey> selectionKeys = selector.selectedKeys();
                     Iterator<SelectionKey> iter = selectionKeys.iterator();
@@ -43,6 +44,8 @@ public class SocketMultiplexingSingleThreadv1 {
                         iter.remove();
                         if (key.isAcceptable()) {
                             acceptHandler(key);
+                            sum ++;
+                            System.out.println(sum);
                         } else if (key.isReadable()) {
                             readHandler(key);
                         }

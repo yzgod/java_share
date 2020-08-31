@@ -14,26 +14,15 @@ public class SocketNIO {
         LinkedList<SocketChannel> clients = new LinkedList<>();
 
         ServerSocketChannel ss = ServerSocketChannel.open();
-        ss.bind(new InetSocketAddress(9090));
+        ss.bind(new InetSocketAddress(9091));
         ss.configureBlocking(false); //重点  OS  NONBLOCKING!!!
 
-        ss.setOption(StandardSocketOptions.TCP_NODELAY, false);
-//        StandardSocketOptions.TCP_NODELAY
-//        StandardSocketOptions.SO_KEEPALIVE
-//        StandardSocketOptions.SO_LINGER
-//        StandardSocketOptions.SO_RCVBUF
-//        StandardSocketOptions.SO_SNDBUF
-//        StandardSocketOptions.SO_REUSEADDR
-
-
-
-
         while (true) {
-            Thread.sleep(1000);
+//            Thread.sleep(1000);
             SocketChannel client = ss.accept(); //不会阻塞？  -1NULL
 
             if (client == null) {
-                System.out.println("null.....");
+//                System.out.println("null.....");
             } else {
                 client.configureBlocking(false);
                 int port = client.socket().getPort();
