@@ -7,6 +7,8 @@ import java.nio.channels.SelectionKey;
 import java.nio.channels.Selector;
 import java.nio.channels.ServerSocketChannel;
 import java.nio.channels.SocketChannel;
+import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.Iterator;
 import java.util.Set;
 
@@ -14,15 +16,13 @@ public class SocketMultiplexingSingleThreadv1 {
 
     private ServerSocketChannel server = null;
     private Selector selector = null;   //linux 多路复用器（select poll    epoll kqueue） nginx  event{}
-    int port = 9090;
+    int port = 19090;
 
     public void initServer() {
         try {
             server = ServerSocketChannel.open();
             server.configureBlocking(false);
             server.bind(new InetSocketAddress(port));
-
-
             //如果在epoll模型下，open--》  epoll_create -> fd3
             selector = Selector.open();  //  select  poll  *epoll  优先选择：epoll  但是可以 -D修正
 
@@ -34,8 +34,6 @@ public class SocketMultiplexingSingleThreadv1 {
             epoll：  epoll_ctl(fd3,ADD,fd4,EPOLLIN
              */
             server.register(selector, SelectionKey.OP_ACCEPT);
-
-
         } catch (IOException e) {
             e.printStackTrace();
         }
@@ -46,11 +44,8 @@ public class SocketMultiplexingSingleThreadv1 {
         System.out.println("服务器启动了。。。。。");
         try {
             while (true) {  //死循环
-
                 Set<SelectionKey> keys = selector.keys();
                 System.out.println(keys.size()+"   size");
-
-
                 //1,调用多路复用器(select,poll  or  epoll  (epoll_wait))
                 /*
                 select()是啥意思：
@@ -58,17 +53,14 @@ public class SocketMultiplexingSingleThreadv1 {
                 2，epoll：  其实 内核的 epoll_wait()
                 *, 参数可以带时间：没有时间，0  ：  阻塞，有时间设置一个超时
                 selector.wakeup()  结果返回0
-
                 懒加载：
                 其实再触碰到selector.select()调用的时候触发了epoll_ctl的调用
-
                  */
                 while (selector.select() > 0) {
                     Set<SelectionKey> selectionKeys = selector.selectedKeys();  //返回的有状态的fd集合
                     Iterator<SelectionKey> iter = selectionKeys.iterator();
                     //so，管你啥多路复用器，你呀只能给我状态，我还得一个一个的去处理他们的R/W。同步好辛苦！！！！！！！！
-                    //  NIO  自己对着每一个fd调用系统调用，浪费资源，那么你看，这里是不是调用了一次select方法，知道具体的那些可以R/W了？
-                    //幕兰，是不是很省力？
+                    //NIO  自己对着每一个fd调用系统调用，浪费资源，那么你看，这里是不是调用了一次select方法，知道具体的那些可以R/W了？
                     //我前边可以强调过，socket：  listen   通信 R/W
                     while (iter.hasNext()) {
                         SelectionKey key = iter.next();
@@ -113,11 +105,12 @@ public class SocketMultiplexingSingleThreadv1 {
             System.out.println("-------------------------------------------");
             System.out.println("新客户端：" + client.getRemoteAddress());
             System.out.println("-------------------------------------------");
-
         } catch (IOException e) {
             e.printStackTrace();
         }
     }
+
+    private static final Charset charset = StandardCharsets.UTF_8;
 
     public void readHandler(SelectionKey key) {
         SocketChannel client = (SocketChannel) key.channel();
@@ -128,21 +121,26 @@ public class SocketMultiplexingSingleThreadv1 {
             while (true) {
                 read = client.read(buffer);
                 if (read > 0) {
-                    buffer.flip();
-                    while (buffer.hasRemaining()) {
-                        client.write(buffer);
-                    }
-                    buffer.clear();
+                    continue;
                 } else if (read == 0) {
+                    buffer.flip();
+                    String data = charset.decode(buffer).toString();
+                    System.out.println(client.getRemoteAddress() + ":" + data);
+                    buffer.clear();
+
+                    String res = "收到了:" + data;
+                    ByteBuffer wrap = ByteBuffer.wrap(res.getBytes("UTF-8"));
+                    client.write(wrap);
+                    wrap.clear();
                     break;
                 } else {
+                    System.out.println(client.getRemoteAddress()+ ": read close");
                     client.close();
                     break;
                 }
             }
         } catch (IOException e) {
             e.printStackTrace();
-
         }
     }
 
