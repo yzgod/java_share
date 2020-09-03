@@ -15,7 +15,6 @@ import java.util.concurrent.atomic.AtomicInteger;
 
 public class SocketMultiplexingThreadsV2 {
     public static void main(String[] args) throws IOException {
-        System.out.println(Thread.currentThread());
 
         EventLoopGroup boss = new EventLoopGroup(1);
         EventLoopGroup worker = new EventLoopGroup(3);
@@ -30,6 +29,7 @@ class ServerBootStrap {
     private EventLoopGroup group;
     private EventLoopGroup chiledGroup;
     ServerAcceptr sAcceptr;
+
     public ServerBootStrap group(EventLoopGroup boss, EventLoopGroup worker) {
         group = boss;
         chiledGroup = worker;
@@ -38,11 +38,11 @@ class ServerBootStrap {
 
     public void bind(int port) throws IOException {
         //bind 处理的是server的启动过程
-         ServerSocketChannel server = ServerSocketChannel.open();
+        ServerSocketChannel server = ServerSocketChannel.open();
         server.configureBlocking(false);
         server.bind(new InetSocketAddress(port));
         sAcceptr = new ServerAcceptr(chiledGroup, server);
-         EventLoop eventloop = group.chosser();
+        EventLoop eventloop = group.chosser();
         //把启动server，bind端口的操作变成task，推送到eventloop中执行。
         eventloop.execute(new Runnable() {
             @Override
@@ -87,6 +87,7 @@ interface Handler {
 class ClientReader implements Handler {
 
     SocketChannel key;
+
     ClientReader(SocketChannel server) {
         this.key = server;
     }
@@ -117,23 +118,25 @@ class ClientReader implements Handler {
 class ServerAcceptr implements Handler {
     ServerSocketChannel key;
     EventLoopGroup cGroup;
+
     ServerAcceptr(EventLoopGroup cGroup, ServerSocketChannel server) {
         this.key = server;
         this.cGroup = cGroup;
     }
+
     public void doRead() {
         try {
             final EventLoop eventLoop = cGroup.chosser();
             final SocketChannel client = key.accept();
             client.configureBlocking(false);
-            client.setOption(StandardSocketOptions.TCP_NODELAY,true);
+            client.setOption(StandardSocketOptions.TCP_NODELAY, true);
             final ClientReader cHandler = new ClientReader(client);
             eventLoop.execute(new Runnable() {
                 @Override
                 public void run() {
                     try {
-                        eventLoop.name = Thread.currentThread() + eventLoop.name;
-                        System.out.println("socket...send...to " + eventLoop.name);
+
+                        System.out.println("socket...send...to " + eventLoop.name+ " client port : " + client.socket().getPort());
 
                         client.register(eventLoop.selector, SelectionKey.OP_READ, cHandler);
                     } catch (IOException e) {
@@ -154,6 +157,7 @@ class EventLoop implements Executor {
     BlockingQueue events = new LinkedBlockingQueue();
     int NOT_STARTED = 1;
     int STARTED = 2;
+    AtomicInteger STAT = new AtomicInteger(1);
     String name;
 
 
@@ -169,9 +173,10 @@ class EventLoop implements Executor {
     //Loop 需要一个死循环  这个死循环在哪里运行呢？当然在一个线程里，那，那个线程怎么出现的呢？？？当然是execute创建出来的。
     public void run() throws InterruptedException, IOException {
 
+        System.out.println("server已经开始：");
+
         for (; ; ) {
             //select
-            System.out.println("server已经开始：");
             int nums = selector.select();
             //selectedkeys to events
             if (nums > 0) {
@@ -201,7 +206,8 @@ class EventLoop implements Executor {
         } catch (InterruptedException e) {
             e.printStackTrace();
         }
-        if (!inEventLoop()) {
+        if (!inEventLoop() && STAT.incrementAndGet() == STARTED) {
+
             new Thread(new Runnable() {
                 @Override
                 public void run() {
@@ -227,6 +233,7 @@ class EventLoop implements Executor {
             }
         }
     }
+
     private boolean inEventLoop() {
         return thread == Thread.currentThread();
     }

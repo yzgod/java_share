@@ -14,8 +14,6 @@ import io.netty.channel.socket.nio.NioSocketChannel;
 
 
 /**
- * @author: 马士兵教育
- * @create: 2020-04-26 15:59
  */
 public class NettyClient {
 
@@ -25,7 +23,7 @@ public class NettyClient {
             Bootstrap boot = new Bootstrap();
             boot.group(worker)
                     .channel(NioSocketChannel.class)
-                    .remoteAddress("localhost", 9090)
+                    .remoteAddress("192.168.150.11", 9090)
                     .handler(new ChannelInitializer<SocketChannel>() {
                         @Override
                         protected void initChannel(SocketChannel sc) throws Exception {
@@ -34,19 +32,11 @@ public class NettyClient {
                             p.addLast(new MyInbound());
                         }
                     });
-
-
             ChannelFuture conn = boot.connect().sync();
-
-
             Channel client = conn.channel();
             System.out.println(client);
-
             ByteBuf byteBuf = Unpooled.copiedBuffer("hello world".getBytes());
             client.writeAndFlush(byteBuf).sync();
-
-
-
 
         } catch (InterruptedException e) {
             e.printStackTrace();
